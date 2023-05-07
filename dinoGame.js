@@ -1,14 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
+    
+    function setCanvasSize() {
+        canvas.width = window.innerWidth * .9;
+        canvas.height = window.innerHeight * .9;
+    }
+
 
     class Dino {
         constructor() {
-            this.width = 118;
-            this.height = 279;
+            this.height = canvas.height/2.5;
+            this.width = this.height/279 * 118;
             this.x = 50;
             this.y = canvas.height - this.height;
-            this.jumpHeight = 30;
+            this.jumpHeight = canvas.height/20;
             this.gravity = 1.5;
             this.velocity = 0;
             this.image = new Image();
@@ -38,8 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
         static baseSpeed = 8;
 
         constructor() {
-            this.width = 40;
-            this.height = 40;
+            this.width = canvas.height/15;
+            this.height = this.width;
             this.x = canvas.width;
 
             // Randomize the y position
@@ -91,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getMinDistance() {
-        return 50 - (Obstacle.baseSpeed - 8) * 5;
+        return canvas.width/25 - (Obstacle.baseSpeed - 8) * canvas.width/250;
     }
     
     
@@ -156,6 +162,9 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.addEventListener("click", () => {
         dino.jump();
     });
+
+    setCanvasSize();
+    window.addEventListener("resize", setCanvasSize);
 
     resetGame();
     gameLoop();
